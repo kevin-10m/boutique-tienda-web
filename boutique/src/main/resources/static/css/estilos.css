@@ -107,6 +107,50 @@ body {
     background-color: #ded0c3;
 }
 
+.titulo-catalogo {
+    font-family: Georgia, serif;
+    font-size: 48px;
+}
+
+.categoria-badge {
+    background-color: #e6d4c6;
+    color: #3f362f;
+    padding: 10px 15px;
+    font-weight: normal;
+}
+
+.producto-card {
+    border-radius: 0;
+    border: 1px solid #e2d8cf;
+    background-color: white;
+}
+
+.producto-imagen {
+    height: 390px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.producto-categoria {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #a06f61;
+}
+
+.precio-producto {
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.agotado {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    border-radius: 0;
+    letter-spacing: 2px;
+}
+
 .footer-boutique {
     background-color: #3f362f;
     color: white;
