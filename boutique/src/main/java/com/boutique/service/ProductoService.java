@@ -25,9 +25,8 @@ public class ProductoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Producto> buscarProductos(String nombre) {
-        return productoRepository
-                .findByNombreContainingIgnoreCaseAndActivoTrueOrderByNombreAsc(nombre);
+    public List<Producto> buscarProductos(String texto) {
+        return productoRepository.buscarProductos(texto);
     }
 
     @Transactional(readOnly = true)

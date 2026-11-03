@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+
+            <div class="mb-4">
+
+                <a th:href="@{/catalogo}"
+                   class="volver-catalogo">
+
+                    ← VOLVER AL CATÁLOGO
+
+                </a>
+
+            </div>
+
+            <div class="row g-5 align-items-start">
+
+                <div class="col-lg-6">
+
+                    <img th:src="${producto.imagen}"
+                         th:alt="${producto.nombre}"
+                         class="img-fluid detalle-imagen"/>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <p class="producto-categoria mb-2"
+                       th:text="${producto.categoria.nombre}">
+                        Categoría
+                    </p>
+
+                    <h1 class="detalle-titulo"
+                        th:text="${producto.nombre}">
+                        Producto
+                    </h1>
+
+                    <h3 class="detalle-precio">
+
+                        ₡
+                        <span th:text="${#numbers.formatDecimal(producto.precio,1,0)}">
+                            0
+                        </span>
+
+                    </h3>
+
+                    <p class="detalle-descripcion"
+                       th:text="${producto.descripcion}">
+                        Descripción
+                    </p>
+
+                    <div class="mt-4">
+
+                        <p th:if="${producto.existencias > 0}"
+                           class="text-success">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            <span th:text="${producto.existencias + ' unidades disponibles'}">
+                            </span>
+
+                        </p>
+
+                        <p th:if="${producto.existencias == 0}"
+                           class="text-danger">
+
+                            <strong>Producto agotado</strong>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <section class="mt-5 pt-5"
+                     th:if="${!recomendados.isEmpty()}">
+
+                <h2 class="titulo-seccion mb-4">
+                    También te puede gustar
+                </h2>
+
+                <div class="row g-4">
+
+                    <div class="col-md-4"
+                         th:each="recomendado : ${recomendados}">
+
+                        <div class="card producto-card h-100">
+
+                            <a th:href="@{/catalogo/producto/{id}(id=${recomendado.idProducto})}">
+
+                                <img th:src="${recomendado.imagen}"
+                                     th:alt="${recomendado.nombre}"
+                                     class="card-img-top recomendado-imagen"/>
+
+                            </a>
+
+                            <div class="card-body">
+
+                                <h5 th:text="${recomendado.nombre}">
+                                    Producto
+                                </h5>
+
+                                <p class="precio-producto">
+
+                                    ₡
+                                    <span th:text="${#numbers.formatDecimal(recomendado.precio,1,0)}">
+                                        0
+                                    </span>
+
+                                </p>
+
+                                <a th:href="@{/catalogo/producto/{id}(id=${recomendado.idProducto})}"
+                                   class="btn btn-outline-dark btn-sm">
+
+                                    VER DETALLE →
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

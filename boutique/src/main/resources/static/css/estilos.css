@@ -151,6 +151,46 @@ body {
     letter-spacing: 2px;
 }
 
+.detalle-imagen {
+    width: 100%;
+    height: 650px;
+    object-fit: cover;
+}
+
+.detalle-titulo {
+    font-family: Georgia, serif;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.detalle-precio {
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.detalle-descripcion {
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.volver-catalogo {
+    color: #3f362f;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.volver-catalogo:hover {
+    color: #a06f61;
+}
+
+.recomendado-imagen {
+    height: 330px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
 .footer-boutique {
     background-color: #3f362f;
     color: white;

@@ -27,7 +27,7 @@ VALUES
 (4, 'Blusa Seda Marfil',
  'Blusa ligera de estilo clásico en tono marfil.',
  28000, 8,
- 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600',
+ 'https://images.unsplash.com/photo-1571044420976-94b71786bae8?auto=format&fit=crop&q=80&w=600',
  true, 2),
 
 (5, 'Blusa Algodón Sol',
@@ -49,5 +49,5 @@ VALUES
  true, 3);
 
 UPDATE producto
-SET imagen = 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600'
+SET imagen = 'https://images.unsplash.com/photo-1571044420976-94b71786bae8?auto=format&fit=crop&q=80&w=600'
 WHERE id_producto = 4;

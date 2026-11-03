@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,5 +28,51 @@ public class CatalogoController {
         model.addAttribute("categorias", categorias);
 
         return "catalogo/listado";
+    }
+
+    @GetMapping("/buscar")
+    public String buscar(
+            @RequestParam(name = "texto", required = false, defaultValue = "")
+            String texto,
+            Model model) {
+
+        var productos = texto.isBlank()
+                ? java.util.Collections.emptyList()
+                : productoService.buscarProductos(texto);
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("texto", texto);
+
+        return "catalogo/buscar";
+    }
+
+    @GetMapping("/producto/{idProducto}")
+    public String detalle(
+            @PathVariable Integer idProducto,
+            Model model) {
+
+        var productoOptional =
+                productoService.getProducto(idProducto);
+
+        if (productoOptional.isEmpty()) {
+            return "redirect:/catalogo";
+        }
+
+        var producto = productoOptional.get();
+
+        var recomendados =
+                productoService
+                        .getProductosPorCategoria(
+                                producto.getCategoria().getIdCategoria())
+                        .stream()
+                        .filter(p ->
+                                !p.getIdProducto().equals(idProducto))
+                        .limit(3)
+                        .toList();
+
+        model.addAttribute("producto", producto);
+        model.addAttribute("recomendados", recomendados);
+
+        return "catalogo/detalle";
     }
 }
