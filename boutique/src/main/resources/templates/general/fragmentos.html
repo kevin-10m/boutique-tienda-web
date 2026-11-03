@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:fragment="head">
+        <meta charset="UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+
+        <title>Boutique</title>
+
+        <link rel="stylesheet"
+              th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+
+        <link rel="stylesheet"
+              th:href="@{/webjars/font-awesome/css/all.min.css}"/>
+
+        <link rel="stylesheet"
+              th:href="@{/css/estilos.css}"/>
+    </head>
+
+    <body>
+
+        <header th:fragment="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                <div class="container py-2">
+
+                    <a class="navbar-brand nombre-boutique"
+                       th:href="@{/}">
+                        BOUTIQUE
+                    </a>
+
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#menuPrincipal">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse"
+                         id="menuPrincipal">
+
+                        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   th:href="@{/}">
+                                    INICIO
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    CATÁLOGO
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    BUSCAR
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    CUENTA
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    CARRITO
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <footer th:fragment="footer"
+                class="footer-boutique mt-5">
+
+            <div class="container py-4">
+                <div class="row align-items-center">
+
+                    <div class="col-md-6">
+                        <strong>BOUTIQUE</strong>
+                        <p class="mb-0">
+                            © Boutique 2026
+                        </p>
+                    </div>
+
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <span>INSTAGRAM</span>
+                        <span class="mx-2">·</span>
+                        <span>FACEBOOK</span>
+                        <span class="mx-2">·</span>
+                        <span>TIKTOK</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        </footer>
+
+    </body>
+</html>

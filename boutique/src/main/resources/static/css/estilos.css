@@ -1,0 +1,115 @@
+body {
+    background-color: #faf8f5;
+    color: #3f362f;
+    font-family: Arial, sans-serif;
+}
+
+.nombre-boutique {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: #3f362f;
+}
+
+.nav-link {
+    color: #3f362f !important;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.hero-boutique {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(239, 228, 218, 0.95),
+            rgba(245, 238, 231, 0.65)
+        );
+}
+
+.min-vh-75 {
+    min-height: 520px;
+}
+
+.temporada {
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.hero-boutique h1 {
+    font-family: Georgia, serif;
+    font-size: 64px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.hero-texto {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-boutique {
+    background-color: #4f4138;
+    color: white;
+    border-radius: 0;
+    padding: 13px 25px;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.btn-boutique:hover {
+    background-color: #372e28;
+    color: white;
+}
+
+.titulo-seccion {
+    font-family: Georgia, serif;
+    font-size: 38px;
+}
+
+.categoria-card {
+    min-height: 300px;
+    padding: 30px;
+    display: flex;
+    align-items: end;
+    background-color: #e8ddd3;
+    transition: 0.3s;
+}
+
+.categoria-card:hover {
+    transform: translateY(-5px);
+}
+
+.categoria-card h3 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+}
+
+.categoria-card a {
+    color: #3f362f;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.categoria-vestidos {
+    background-color: #e6d4c6;
+}
+
+.categoria-blusas {
+    background-color: #eee5dc;
+}
+
+.categoria-accesorios {
+    background-color: #ded0c3;
+}
+
+.footer-boutique {
+    background-color: #3f362f;
+    color: white;
+    font-size: 13px;
+    letter-spacing: 1px;
+}

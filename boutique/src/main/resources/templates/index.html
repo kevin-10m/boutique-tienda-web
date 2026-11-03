@@ -2,45 +2,94 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1.0">
-
-        <title>Boutique</title>
-
-        <link rel="stylesheet"
-              th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-
-        <link rel="stylesheet"
-              th:href="@{/webjars/font-awesome/css/all.min.css}"/>
-    </head>
+    <head th:replace="~{general/fragmentos :: head}"></head>
 
     <body>
 
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" th:href="@{/}">
-                    BOUTIQUE
-                </a>
-            </div>
-        </nav>
+        <header th:replace="~{general/fragmentos :: header}"></header>
 
-        <main class="container py-5 text-center">
+        <main>
 
-            <h1>Boutique</h1>
+            <section class="hero-boutique">
+                <div class="container">
+                    <div class="row align-items-center min-vh-75">
 
-            <p class="lead">
-                Tienda de ropa en línea
-            </p>
+                        <div class="col-lg-7">
 
-            <p>
-                Proyecto SC-403 Desarrollo de Aplicaciones Web y Patrones
-            </p>
+                            <p class="temporada">
+                                TEMPORADA 2026
+                            </p>
+
+                            <h1>
+                                Nueva colección
+                            </h1>
+
+                            <p class="hero-texto">
+                                Piezas atemporales en tonos cálidos
+                            </p>
+
+                            <a href="#categorias"
+                               class="btn btn-boutique">
+                                VER CATÁLOGO →
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="categorias"
+                     class="container py-5">
+
+                <div class="text-center mb-5">
+                    <h2 class="titulo-seccion">
+                        Explora nuestras categorías
+                    </h2>
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+                        <div class="categoria-card categoria-vestidos">
+                            <div>
+                                <h3>Vestidos</h3>
+                                <a href="#">
+                                    VER →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="categoria-card categoria-blusas">
+                            <div>
+                                <h3>Blusas</h3>
+                                <a href="#">
+                                    VER →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="categoria-card categoria-accesorios">
+                            <div>
+                                <h3>Accesorios</h3>
+                                <a href="#">
+                                    VER →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
 
         </main>
 
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
 
     </body>
 </html>
