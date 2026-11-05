@@ -3,6 +3,7 @@ package com.boutique.repository;
 import com.boutique.domain.Producto;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,11 @@ public interface ProductoRepository
            """)
     public List<Producto> buscarProductos(
             @Param("texto") String texto);
+
+    @Modifying
+    @Query("""
+           UPDATE Producto p SET p.existencias = p.existencias - :cantidad
+           WHERE p.idProducto = :id AND p.existencias >= :cantidad
+           """)
+    int descontar(@Param("id") Integer id, @Param("cantidad") int cantidad);
 }
