@@ -40,4 +40,8 @@ public interface ProductoRepository
            WHERE p.idProducto = :id AND p.existencias >= :cantidad
            """)
     int descontar(@Param("id") Integer id, @Param("cantidad") int cantidad);
+
+    @Modifying
+    @Query("UPDATE Producto p SET p.existencias = p.existencias + :cantidad WHERE p.idProducto = :id")
+    void reponer(@Param("id") Integer id, @Param("cantidad") int cantidad);
 }

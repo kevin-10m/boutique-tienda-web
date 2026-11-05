@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 public class CorreoService {
     private final ObjectProvider<JavaMailSender> remitente;
 
+    @Value("${spring.mail.host:}")
+    private String servidorCorreo;
+
     @Value("${boutique.correo.remitente}")
     private String direccionRemitente;
 
@@ -37,7 +40,7 @@ public class CorreoService {
                 pedido.getTotal(), pedido.getEstado().getEtiqueta());
 
         var servidor = remitente.getIfAvailable();
-        if (servidor == null) {
+        if (servidor == null || servidorCorreo.isBlank()) {
             log.info("Correo no configurado. Confirmación para {}:\n{}", pedido.getClienta().getCorreo(), texto);
             return;
         }

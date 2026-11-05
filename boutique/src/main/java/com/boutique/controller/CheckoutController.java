@@ -95,6 +95,12 @@ public class CheckoutController {
         if (resumen.lineas().isEmpty()) {
             return "redirect:/carrito";
         }
+        if (form.getEntrega() == null) {
+            form.setEntrega(Entrega.DOMICILIO);
+        }
+        if (form.getMetodoPago() == null) {
+            form.setMetodoPago(MetodoPago.TARJETA);
+        }
         form.setNumeroTarjeta(null);
         form.setVencimientoTarjeta(null);
         form.setCvv(null);

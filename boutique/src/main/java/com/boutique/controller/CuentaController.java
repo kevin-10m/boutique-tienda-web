@@ -1,9 +1,11 @@
 package com.boutique.controller;
 
 import com.boutique.service.ClientaService;
+import com.boutique.service.PedidoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cuenta")
 public class CuentaController {
     private final ClientaService clientas;
+    private final PedidoService pedidos;
 
     public record Registro(@NotBlank @Email @Size(max = 254) String correo,
                            @NotBlank @Size(min = 8, max = 72) String clave) {}
 
     @GetMapping
-    public String cuenta() {
+    public String cuenta(Principal clienta, Model model) {
+        if (clienta != null) {
+            model.addAttribute("perfil", clientas.buscar(clienta.getName()));
+            model.addAttribute("pedidos", pedidos.listarDeClienta(clienta.getName()));
+        }
         return "cuenta";
     }
 

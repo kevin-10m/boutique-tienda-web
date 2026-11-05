@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: adminHeader}"></header>
+<main class="container py-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="titulo-catalogo mb-0">Pedidos</h1>
+            <p class="text-muted mb-0">Seguimiento y actualización del estado de los pedidos</p>
+        </div>
+        <div class="d-flex gap-2">
+            <div class="panel-claro px-3 py-2" th:each="e : ${conteo}" th:if="${e.key.name() != 'CANCELADO'}">
+                <small class="d-block text-muted" th:text="${e.key.etiqueta}"></small>
+                <strong class="h5 titulo-resumen" th:text="${e.value}"></strong>
+            </div>
+        </div>
+    </div>
+    <p class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></p>
+    <p class="alert alert-danger" role="alert" th:if="${errorPedido}" th:text="${errorPedido}"></p>
+    <p th:if="${pedidos.isEmpty()}">Todavía no hay pedidos.</p>
+    <div class="table-responsive" th:unless="${pedidos.isEmpty()}">
+        <table class="table align-middle bg-white">
+            <thead class="table-light">
+            <tr><th>N.º pedido</th><th>Clienta</th><th>Total</th><th>Pago</th><th>Comprobante</th><th>Entrega</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${pedidos}">
+                <td class="fw-bold" th:text="${p.numero}"></td>
+                <td>
+                    <span class="d-block" th:text="${p.nombre}"></span>
+                    <small class="text-muted" th:text="${p.clienta.correo}"></small>
+                </td>
+                <td class="fw-semibold" th:insert="~{general/fragmentos :: colones(${p.total})}"></td>
+                <td th:text="${p.metodoPago.etiqueta}"></td>
+                <td th:text="${p.comprobante ?: (p.referenciaPago ?: '—')}"></td>
+                <td th:text="${p.entrega.name() == 'RETIRO'} ? 'Retiro en tienda' : |${p.distrito}, ${p.canton}, ${p.provincia}|"></td>
+                <td>
+                    <span class="badge rounded-0 d-block mb-1" th:classappend="${p.estado.estilo}" th:text="${p.estado.etiqueta}"></span>
+                    <form th:unless="${p.estado.siguientes.isEmpty()}" th:action="@{/admin/pedidos/{id}/estado(id=${p.id})}" method="post" class="d-flex gap-1">
+                        <select name="estado" class="form-select form-select-sm" aria-label="Nuevo estado" required>
+                            <option th:each="s : ${p.estado.siguientes}" th:value="${s}" th:text="${s.etiqueta}"></option>
+                        </select>
+                        <button class="btn btn-dark btn-sm">OK</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

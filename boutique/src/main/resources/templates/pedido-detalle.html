@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: header}"></header>
+<main class="container py-5">
+    <a th:href="@{/cuenta}" class="volver-catalogo">← VOLVER A MI CUENTA</a>
+    <h1 class="titulo-catalogo mt-3" th:text="|Pedido ${pedido.numero}|"></h1>
+    <p class="text-muted" th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></p>
+
+    <p class="alert alert-secondary" th:if="${pedido.estado.name() == 'CANCELADO'}">Este pedido fue cancelado.</p>
+    <ol class="linea-estados my-4" th:unless="${pedido.estado.name() == 'CANCELADO'}">
+        <li th:each="paso : ${pasos}" th:classappend="${paso.ordinal() le pedido.estado.ordinal()} ? 'completado'"
+            th:text="${paso.etiqueta}"></li>
+    </ol>
+
+    <div class="row g-4">
+        <section class="col-lg-7">
+            <div class="panel-claro p-4">
+                <h2 class="h5 titulo-resumen">Productos</h2>
+                <div class="d-flex justify-content-between mb-2" th:each="d : ${pedido.detalles}">
+                    <div>
+                        <span class="d-block" th:text="${d.nombreProducto}"></span>
+                        <small class="text-muted" th:text="|${d.cantidad} · Talla ${d.talla} · ${d.color}|"></small>
+                    </div>
+                    <span class="fw-semibold" th:insert="~{general/fragmentos :: colones(${d.importe})}"></span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Subtotal</span><span th:insert="~{general/fragmentos :: colones(${pedido.subtotal})}"></span>
+                </div>
+                <div class="d-flex justify-content-between" th:if="${pedido.cupon}">
+                    <span th:text="|Descuento (${pedido.cupon})|"></span>
+                    <span class="texto-terracota">− <span th:replace="~{general/fragmentos :: colones(${pedido.descuento})}"></span></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Envío</span><span th:insert="~{general/fragmentos :: colones(${pedido.envio})}"></span>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <span class="h5 titulo-resumen mb-0">Total</span>
+                    <span class="h5 fw-bold mb-0" th:insert="~{general/fragmentos :: colones(${pedido.total})}"></span>
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-5">
+            <div class="producto-card p-4">
+                <h2 class="h5 titulo-resumen">Entrega y pago</h2>
+                <p class="mb-1" th:text="${pedido.nombre}"></p>
+                <p class="mb-1" th:text="${pedido.telefono}"></p>
+                <p class="mb-3" th:text="${pedido.entrega.name() == 'RETIRO'} ? 'Retiro en tienda' : |${pedido.direccion}, ${pedido.distrito}, ${pedido.canton}, ${pedido.provincia}|"></p>
+                <p class="mb-0" th:text="|Pago: ${pedido.metodoPago.etiqueta}|"></p>
+                <p class="mb-0" th:if="${pedido.comprobante}" th:text="|Comprobante: ${pedido.comprobante}|"></p>
+            </div>
+        </section>
+    </div>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

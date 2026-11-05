@@ -3,6 +3,7 @@ package com.boutique.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -18,7 +19,8 @@ public class Clienta {
     @Column(nullable = false)
     private String claveHash;
 
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'CLIENTA' not null")
+    @Column(nullable = false, length = 20)
+    @ColumnDefault("'CLIENTA'")
     private String rol = "CLIENTA";
 
     private String nombre;
