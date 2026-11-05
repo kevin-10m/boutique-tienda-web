@@ -71,3 +71,8 @@ UPDATE producto SET descuento = 0 WHERE descuento IS NULL;
 INSERT IGNORE INTO clienta (correo, clave_hash, rol, nombre) VALUES
 ('sofia.admin@boutique.test', '{bcrypt}$2a$10$UIXi8RG5RFPLbG06OjVWpOAzEd4PtW.frfh52RRRpNFmyaEPjGOcK', 'ADMIN', 'Sofía Admin'),
 ('ana.rodriguez@boutique.test', '{bcrypt}$2a$10$oE7jYeixPiMEnWy4yg7.g.1AXvQHBaXq4CKzFH13Li/4oVN0t.hMy', 'CLIENTA', 'Ana Rodríguez Vargas');
+
+-- Cupones de prueba: uno vigente y otro vencido.
+INSERT IGNORE INTO cupon (codigo, porcentaje, vencimiento, activo) VALUES
+('VERANO10', 10, '2027-12-31', true),
+('VENCIDO25', 25, '2025-01-31', true);

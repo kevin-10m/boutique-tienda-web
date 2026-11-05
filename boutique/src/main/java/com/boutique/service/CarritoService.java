@@ -1,9 +1,12 @@
 package com.boutique.service;
 
+import com.boutique.domain.Cupon;
+import com.boutique.domain.Entrega;
 import com.boutique.domain.LineaCarrito;
 import com.boutique.domain.Variante;
 import com.boutique.repository.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,7 @@ public class CarritoService {
     private final ClientaRepository clientas;
     private final VarianteRepository variantes;
     private final LineaCarritoRepository lineas;
+    private final CuponService cupones;
 
     @Value("${boutique.envio.estandar}")
     private BigDecimal envioEstandar;
@@ -29,15 +33,28 @@ public class CarritoService {
         return lineas.contarUnidades(correo);
     }
 
-    public record Resumen(List<LineaCarrito> lineas, BigDecimal subtotal,
-                          BigDecimal envio, BigDecimal total) {}
+    public record Resumen(List<LineaCarrito> lineas, BigDecimal subtotal, BigDecimal descuento,
+                          String cupon, BigDecimal envio, BigDecimal total) {}
 
-    public Resumen consultar(String correo) {
+    public Resumen consultar(String correo, String codigoCupon) {
+        return consultar(correo, codigoCupon, Entrega.DOMICILIO);
+    }
+
+    public Resumen consultar(String correo, String codigoCupon, Entrega entrega) {
         var contenido = lineas.findByClientaCorreoOrderByIdAsc(correo);
+        return calcular(contenido, cupones.buscarVigente(codigoCupon).orElse(null), entrega);
+    }
+
+    /** Único punto donde se calculan los montos del carrito y del pedido. */
+    public Resumen calcular(List<LineaCarrito> contenido, Cupon cupon, Entrega entrega) {
         var subtotal = contenido.stream().map(LineaCarrito::getImporte)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        var envio = contenido.isEmpty() ? BigDecimal.ZERO : envioEstandar;
-        return new Resumen(contenido, subtotal, envio, subtotal.add(envio));
+        var descuento = cupon == null ? BigDecimal.ZERO
+                : subtotal.multiply(BigDecimal.valueOf(cupon.getPorcentaje()))
+                        .divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
+        var envio = contenido.isEmpty() || entrega == Entrega.RETIRO ? BigDecimal.ZERO : envioEstandar;
+        return new Resumen(contenido, subtotal, descuento, cupon == null ? null : cupon.getCodigo(),
+                envio, subtotal.subtract(descuento).add(envio));
     }
 
     @Transactional

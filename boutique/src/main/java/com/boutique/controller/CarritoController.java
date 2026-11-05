@@ -1,6 +1,8 @@
 package com.boutique.controller;
 
 import com.boutique.service.CarritoService;
+import com.boutique.service.CuponService;
+import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,11 +14,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/carrito")
 @RequiredArgsConstructor
 public class CarritoController {
+    public static final String CUPON_SESION = "cuponCarrito";
+
     private final CarritoService carrito;
+    private final CuponService cupones;
 
     @GetMapping
-    public String ver(Principal clienta, Model model) {
-        model.addAttribute("resumen", carrito.consultar(clienta.getName()));
+    public String ver(Principal clienta, HttpSession sesion, Model model) {
+        var codigo = (String) sesion.getAttribute(CUPON_SESION);
+        model.addAttribute("resumen", carrito.consultar(clienta.getName(), codigo));
         return "carrito";
     }
 
@@ -37,6 +43,24 @@ public class CarritoController {
     @PostMapping("/{id}/eliminar")
     public String eliminar(Principal clienta, @PathVariable Long id) {
         carrito.eliminar(clienta.getName(), id);
+        return "redirect:/carrito";
+    }
+
+    @PostMapping("/cupon")
+    public String aplicarCupon(@RequestParam String codigo, HttpSession sesion, RedirectAttributes mensajes) {
+        var cupon = cupones.buscarVigente(codigo);
+        if (cupon.isEmpty()) {
+            mensajes.addFlashAttribute("errorCarrito", "El cupón no es válido o ya venció.");
+            return "redirect:/carrito";
+        }
+        sesion.setAttribute(CUPON_SESION, cupon.get().getCodigo());
+        mensajes.addFlashAttribute("mensaje", "Cupón aplicado.");
+        return "redirect:/carrito";
+    }
+
+    @PostMapping("/cupon/quitar")
+    public String quitarCupon(HttpSession sesion) {
+        sesion.removeAttribute(CUPON_SESION);
         return "redirect:/carrito";
     }
 

@@ -253,3 +253,21 @@ body {
     height: 56px;
     object-fit: cover;
 }
+
+.miniatura-carrito {
+    width: 104px;
+    height: 104px;
+    object-fit: cover;
+}
+
+.selector-cantidad .form-control {
+    width: 76px;
+}
+
+.campo-cupon {
+    max-width: 240px;
+}
+
+.texto-terracota {
+    color: #b5615b;
+}

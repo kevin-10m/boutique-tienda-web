@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: adminHeader}"></header>
+<main class="container py-5">
+    <h1 class="titulo-catalogo mb-1">Cupones</h1>
+    <p class="text-muted">Promociones de la tienda</p>
+    <p class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></p>
+    <div class="row g-4">
+        <section class="col-lg-4">
+            <form th:action="@{/admin/cupones/guardar}" th:object="${cupon}" method="post" class="panel-claro p-4">
+                <h2 class="h5" th:text="*{id == null} ? 'Nuevo cupón' : 'Editar cupón'"></h2>
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{activo}">
+                <label for="codigo" class="form-label">Código</label>
+                <input th:field="*{codigo}" class="form-control mb-1" th:errorclass="is-invalid" maxlength="20" required>
+                <div class="invalid-feedback d-block" th:errors="*{codigo}"></div>
+                <label for="porcentaje" class="form-label mt-2">Descuento (%)</label>
+                <input th:field="*{porcentaje}" type="number" min="1" max="90" class="form-control" th:errorclass="is-invalid" required>
+                <div class="invalid-feedback" th:errors="*{porcentaje}"></div>
+                <label for="vencimiento" class="form-label mt-3">Vencimiento</label>
+                <input th:field="*{vencimiento}" type="date" class="form-control" th:errorclass="is-invalid" required>
+                <div class="invalid-feedback" th:errors="*{vencimiento}"></div>
+                <button class="btn btn-boutique w-100 mt-4">GUARDAR</button>
+            </form>
+        </section>
+        <section class="col-lg-8">
+            <div class="table-responsive">
+                <table class="table align-middle bg-white">
+                    <thead class="table-light"><tr><th>Código</th><th>Descuento</th><th>Vence</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                    <tr th:each="c : ${cupones}">
+                        <td class="fw-bold" th:text="${c.codigo}"></td>
+                        <td th:text="|${c.porcentaje}%|"></td>
+                        <td th:text="${#temporals.format(c.vencimiento, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${c.isVigente(hoy)} ? 'Vigente' : (${c.activo} ? 'Vencido' : 'Desactivado')"></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a th:href="@{/admin/cupones/{id}/editar(id=${c.id})}" class="btn btn-outline-dark btn-sm">Editar</a>
+                                <form th:action="@{/admin/cupones/{id}/activo(id=${c.id})}" method="post">
+                                    <button class="btn btn-outline-danger btn-sm" th:text="${c.activo} ? 'Desactivar' : 'Activar'"></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>
