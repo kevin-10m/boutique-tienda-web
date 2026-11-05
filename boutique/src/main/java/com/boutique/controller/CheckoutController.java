@@ -3,8 +3,8 @@ package com.boutique.controller;
 import com.boutique.domain.CheckoutForm;
 import com.boutique.domain.Entrega;
 import com.boutique.domain.MetodoPago;
-import com.boutique.repository.ClientaRepository;
 import com.boutique.service.CarritoService;
+import com.boutique.service.ClientaService;
 import com.boutique.service.CompraService;
 import com.boutique.service.CorreoService;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +29,7 @@ public class CheckoutController {
     private final CarritoService carrito;
     private final CompraService compras;
     private final CorreoService correos;
-    private final ClientaRepository clientas;
+    private final ClientaService clientas;
 
     @Value("${boutique.envio.estandar}")
     private BigDecimal envioEstandar;
@@ -43,14 +43,13 @@ public class CheckoutController {
     @GetMapping
     public String formulario(Principal clienta, HttpSession sesion, Model model) {
         var form = new CheckoutForm();
-        clientas.findByCorreo(clienta.getName()).ifPresent(perfil -> {
-            form.setNombre(perfil.getNombre());
-            form.setTelefono(perfil.getTelefono());
-            form.setProvincia(perfil.getProvincia());
-            form.setCanton(perfil.getCanton());
-            form.setDistrito(perfil.getDistrito());
-            form.setDireccion(perfil.getDireccion());
-        });
+        var perfil = clientas.buscar(clienta.getName());
+        form.setNombre(perfil.getNombre());
+        form.setTelefono(perfil.getTelefono());
+        form.setProvincia(perfil.getProvincia());
+        form.setCanton(perfil.getCanton());
+        form.setDistrito(perfil.getDistrito());
+        form.setDireccion(perfil.getDireccion());
         return mostrar(form, clienta, sesion, model);
     }
 
