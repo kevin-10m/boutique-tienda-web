@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: header}"></header>
+<main class="container py-5">
+    <h1 class="mb-4">Mi cuenta</h1>
+    <section th:if="${!correoActual.isEmpty()}">
+        <p>Sesión iniciada con <strong th:text="${correoActual}"></strong></p>
+        <form th:action="@{/cuenta/salir}" method="post">
+            <button class="btn btn-outline-dark">Cerrar sesión</button>
+        </form>
+    </section>
+    <div th:if="${correoActual.isEmpty()}" class="row g-5">
+        <section class="col-md-5">
+            <h2 class="h4">Iniciar sesión</h2>
+            <p th:if="${param.error}" class="alert alert-danger" role="alert">Correo o contraseña incorrectos.</p>
+            <p th:if="${param.registrada}" class="alert alert-success">Cuenta creada. Ya podés iniciar sesión.</p>
+            <form th:action="@{/cuenta/ingresar}" method="post">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input id="correo" class="form-control mb-3" name="correo" type="email" autocomplete="username" required>
+                <label for="clave" class="form-label">Contraseña</label>
+                <input id="clave" class="form-control mb-3" name="clave" type="password" autocomplete="current-password" required>
+                <button class="btn btn-dark">Ingresar</button>
+            </form>
+        </section>
+        <section class="col-md-5">
+            <h2 class="h4">Crear cuenta</h2>
+            <p th:if="${errorRegistro}" th:text="${errorRegistro}" class="alert alert-danger" role="alert"></p>
+            <form th:action="@{/cuenta/registro}" method="post">
+                <label for="nuevoCorreo" class="form-label">Correo electrónico</label>
+                <input id="nuevoCorreo" class="form-control mb-3" name="correo" type="email" maxlength="254" autocomplete="email" required>
+                <label for="nuevaClave" class="form-label">Contraseña (mínimo 8 caracteres)</label>
+                <input id="nuevaClave" class="form-control mb-3" name="clave" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+                <button class="btn btn-dark">Registrarme</button>
+            </form>
+        </section>
+    </div>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

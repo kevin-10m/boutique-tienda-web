@@ -51,3 +51,12 @@ VALUES
 UPDATE producto
 SET imagen = 'https://images.unsplash.com/photo-1571044420976-94b71786bae8?auto=format&fit=crop&q=80&w=600'
 WHERE id_producto = 4;
+
+-- Distribución de ejemplo del inventario existente por talla y color.
+INSERT IGNORE INTO variante (id_producto, talla, color, existencias) VALUES
+(1, 'S', 'Natural', 4), (1, 'M', 'Natural', 6), (1, 'L', 'Natural', 2),
+(1, 'M', 'Negro', 0), (2, 'M', 'Rosado', 0),
+(3, 'S', 'Terracota', 2), (3, 'M', 'Terracota', 4),
+(4, 'S', 'Marfil', 2), (4, 'M', 'Marfil', 4), (4, 'L', 'Marfil', 2),
+(5, 'S', 'Amarillo', 5), (5, 'M', 'Amarillo', 5), (5, 'L', 'Blanco', 5),
+(6, 'Única', 'Dorado', 24), (7, 'Única', 'Nude', 3);
