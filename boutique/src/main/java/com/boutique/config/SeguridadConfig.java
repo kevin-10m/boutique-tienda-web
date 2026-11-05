@@ -16,11 +16,12 @@ public class SeguridadConfig {
     @Bean
     SecurityFilterChain seguridad(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/carrito", "/carrito/**").authenticated()
                 .anyRequest().permitAll())
             .formLogin(login -> login.loginPage("/cuenta").loginProcessingUrl("/cuenta/ingresar")
                 .usernameParameter("correo").passwordParameter("clave")
-                .defaultSuccessUrl("/catalogo").failureUrl("/cuenta?error"))
+                .successHandler(new RedireccionLogin()).failureUrl("/cuenta?error"))
             .logout(logout -> logout.logoutUrl("/cuenta/salir").logoutSuccessUrl("/"));
         return http.build();
     }

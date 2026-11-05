@@ -60,3 +60,14 @@ INSERT IGNORE INTO variante (id_producto, talla, color, existencias) VALUES
 (4, 'S', 'Marfil', 2), (4, 'M', 'Marfil', 4), (4, 'L', 'Marfil', 2),
 (5, 'S', 'Amarillo', 5), (5, 'M', 'Amarillo', 5), (5, 'L', 'Blanco', 5),
 (6, 'Única', 'Dorado', 24), (7, 'Única', 'Nude', 3);
+
+-- Productos con descuento activo. El valor 0 del panel se respeta en cada reinicio.
+UPDATE producto SET descuento = 15 WHERE id_producto = 3 AND descuento IS NULL;
+UPDATE producto SET descuento = 20 WHERE id_producto = 5 AND descuento IS NULL;
+UPDATE producto SET descuento = 10 WHERE id_producto = 6 AND descuento IS NULL;
+UPDATE producto SET descuento = 0 WHERE descuento IS NULL;
+
+-- Cuentas de prueba, con datos ficticios.
+INSERT IGNORE INTO clienta (correo, clave_hash, rol, nombre) VALUES
+('sofia.admin@boutique.test', '{bcrypt}$2a$10$UIXi8RG5RFPLbG06OjVWpOAzEd4PtW.frfh52RRRpNFmyaEPjGOcK', 'ADMIN', 'Sofía Admin'),
+('ana.rodriguez@boutique.test', '{bcrypt}$2a$10$oE7jYeixPiMEnWy4yg7.g.1AXvQHBaXq4CKzFH13Li/4oVN0t.hMy', 'CLIENTA', 'Ana Rodríguez Vargas');

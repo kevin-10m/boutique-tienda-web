@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: adminHeader}"></header>
+<main class="container py-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="titulo-catalogo mb-0">Productos</h1>
+            <p class="text-muted mb-0">Gestión del inventario y catálogo</p>
+        </div>
+        <a th:href="@{/admin/productos/nuevo}" class="btn btn-dark rounded-0">+ AGREGAR PRODUCTO</a>
+    </div>
+    <p class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></p>
+    <div class="table-responsive">
+        <table class="table align-middle bg-white">
+            <thead class="table-light">
+            <tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Existencias</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${productos}">
+                <td>
+                    <div class="d-flex align-items-center gap-3">
+                        <img th:src="${p.imagen}" th:alt="${p.nombre}" class="miniatura">
+                        <div>
+                            <span class="d-block" th:text="${p.nombre}"></span>
+                            <small class="text-muted" th:text="|SKU · BTQ-${1000 + p.idProducto}|"></small>
+                        </div>
+                    </div>
+                </td>
+                <td th:text="${p.categoria.nombre}"></td>
+                <td class="fw-semibold"><span th:replace="~{general/fragmentos :: precio(${p})}"></span></td>
+                <td class="fw-bold" th:classappend="${p.existencias le 3} ? 'text-danger'" th:text="${p.existencias}"></td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <a th:href="@{/admin/productos/{id}/editar(id=${p.idProducto})}" class="btn btn-outline-dark btn-sm">Editar</a>
+                        <form th:action="@{/admin/productos/{id}/eliminar(id=${p.idProducto})}" method="post">
+                            <button class="btn btn-outline-danger btn-sm">Eliminar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

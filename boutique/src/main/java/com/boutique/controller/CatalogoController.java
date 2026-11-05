@@ -32,6 +32,12 @@ public class CatalogoController {
         return "catalogo/listado";
     }
 
+    @GetMapping("/ofertas")
+    public String ofertas(Model model) {
+        model.addAttribute("productos", productoService.getOfertas());
+        return "catalogo/ofertas";
+    }
+
     @GetMapping("/buscar")
     public String buscar(
             @RequestParam(name = "texto", required = false, defaultValue = "")
@@ -56,7 +62,8 @@ public class CatalogoController {
         var productoOptional =
                 productoService.getProducto(idProducto);
 
-        if (productoOptional.isEmpty()) {
+        if (productoOptional.isEmpty()
+                || !Boolean.TRUE.equals(productoOptional.get().getActivo())) {
             return "redirect:/catalogo";
         }
 

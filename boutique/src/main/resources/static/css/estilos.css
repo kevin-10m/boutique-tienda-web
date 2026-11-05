@@ -197,3 +197,59 @@ body {
     font-size: 13px;
     letter-spacing: 1px;
 }
+
+/* Colores y tipografía definidos en el prototipo */
+body {
+    font-family: "Work Sans", Arial, sans-serif;
+}
+
+.nombre-boutique,
+.hero-boutique h1,
+.titulo-seccion,
+.categoria-card h3,
+.titulo-catalogo,
+.detalle-titulo,
+.titulo-resumen {
+    font-family: "Playfair Display", Georgia, serif;
+}
+
+.btn-boutique {
+    background-color: #b5615b;
+    border: 0;
+    font-weight: 700;
+}
+
+.btn-boutique:hover,
+.btn-boutique:focus {
+    background-color: #974d48;
+}
+
+.panel-claro {
+    background-color: #f9f5ef;
+    border: 1px solid #e2d8cf;
+}
+
+.precio-anterior {
+    color: #8b7f76;
+    font-weight: 400;
+    margin-right: 6px;
+    text-decoration: line-through;
+}
+
+.etiqueta-oferta {
+    background-color: #b5615b;
+}
+
+.admin-nav {
+    background-color: #1f1b17;
+}
+
+.admin-nav .nav-link {
+    color: #fff !important;
+}
+
+.miniatura {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+}

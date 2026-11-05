@@ -45,10 +45,7 @@
 
                     <h3 class="detalle-precio">
 
-                        ₡
-                        <span th:text="${#numbers.formatDecimal(producto.precio,1,0)}">
-                            0
-                        </span>
+                        <span th:replace="~{general/fragmentos :: precio(${producto})}"></span>
 
                     </h3>
 
@@ -127,10 +124,7 @@
 
                                 <p class="precio-producto">
 
-                                    ₡
-                                    <span th:text="${#numbers.formatDecimal(recomendado.precio,1,0)}">
-                                        0
-                                    </span>
+                                    <span th:replace="~{general/fragmentos :: precio(${recomendado})}"></span>
 
                                 </p>
 

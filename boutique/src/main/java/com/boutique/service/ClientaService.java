@@ -28,6 +28,6 @@ public class ClientaService implements UserDetailsService {
         var clienta = clientas.findByCorreo(correo.strip().toLowerCase(Locale.ROOT))
                 .orElseThrow(() -> new UsernameNotFoundException("Cuenta desconocida"));
         return User.withUsername(clienta.getCorreo()).password(clienta.getClaveHash())
-                .roles("CLIENTA").build();
+                .roles(clienta.getRol()).build();
     }
 }

@@ -13,6 +13,9 @@ public interface ProductoRepository
 
     public List<Producto> findByActivoTrueOrderByNombreAsc();
 
+    public List<Producto> findByActivoTrueAndDescuentoGreaterThanOrderByNombreAsc(
+            Integer descuento);
+
     public List<Producto>
             findByCategoriaIdCategoriaAndActivoTrueOrderByNombreAsc(
                     Integer idCategoria);

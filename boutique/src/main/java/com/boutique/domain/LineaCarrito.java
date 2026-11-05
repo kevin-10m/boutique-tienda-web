@@ -26,7 +26,7 @@ public class LineaCarrito {
     private int cantidad;
 
     public BigDecimal getImporte() {
-        return BigDecimal.valueOf(variante.getProducto().getPrecio())
+        return variante.getProducto().getPrecioFinal()
                 .multiply(BigDecimal.valueOf(cantidad));
     }
 }
