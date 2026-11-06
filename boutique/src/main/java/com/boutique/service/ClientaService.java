@@ -23,6 +23,12 @@ public class ClientaService implements UserDetailsService {
         clientas.saveAndFlush(clienta);
     }
 
+    @Transactional(readOnly = true)
+    public Clienta buscar(String correo) {
+        return clientas.findByCorreo(correo)
+                .orElseThrow(() -> new UsernameNotFoundException("Cuenta desconocida"));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String correo) {
         var clienta = clientas.findByCorreo(correo.strip().toLowerCase(Locale.ROOT))

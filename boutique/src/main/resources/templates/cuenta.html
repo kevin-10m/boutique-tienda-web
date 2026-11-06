@@ -5,12 +5,39 @@
 <header th:replace="~{general/fragmentos :: header}"></header>
 <main class="container py-5">
     <h1 class="mb-4">Mi cuenta</h1>
-    <section th:if="${!correoActual.isEmpty()}">
-        <p>Sesión iniciada con <strong th:text="${correoActual}"></strong></p>
-        <form th:action="@{/cuenta/salir}" method="post">
-            <button class="btn btn-outline-dark">Cerrar sesión</button>
-        </form>
-    </section>
+    <div th:if="${!correoActual.isEmpty()}" class="row g-4">
+        <section class="col-lg-5">
+            <div class="panel-claro p-4">
+                <p class="small fw-bold texto-terracota mb-2">DATOS PERSONALES</p>
+                <h2 class="h3 titulo-resumen" th:text="${perfil.nombre ?: 'Clienta de Boutique'}"></h2>
+                <p class="text-muted" th:text="${perfil.correo}"></p>
+                <p class="mb-1 small text-muted">PEDIDOS</p>
+                <p class="fw-bold" th:text="${pedidos.size()}"></p>
+                <form th:action="@{/cuenta/salir}" method="post">
+                    <button class="btn btn-outline-dark rounded-0 w-100">CERRAR SESIÓN</button>
+                </form>
+            </div>
+        </section>
+        <section class="col-lg-7">
+            <div class="producto-card p-4">
+                <h2 class="h4 titulo-resumen mb-3">Historial de pedidos</h2>
+                <p th:if="${pedidos.isEmpty()}" class="mb-0">Todavía no tenés pedidos.</p>
+                <div class="table-responsive" th:unless="${pedidos.isEmpty()}">
+                    <table class="table align-middle mb-0">
+                        <thead><tr><th>N.º pedido</th><th>Fecha</th><th>Total</th><th>Estado</th></tr></thead>
+                        <tbody>
+                        <tr th:each="p : ${pedidos}">
+                            <td><a class="fw-bold text-dark" th:href="@{/pedidos/{n}(n=${p.numero})}" th:text="${p.numero}"></a></td>
+                            <td th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy')}"></td>
+                            <td class="fw-semibold" th:insert="~{general/fragmentos :: colones(${p.total})}"></td>
+                            <td><span class="badge rounded-0" th:classappend="${p.estado.estilo}" th:text="${p.estado.etiqueta}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
     <div th:if="${correoActual.isEmpty()}" class="row g-5">
         <section class="col-md-5">
             <h2 class="h4">Iniciar sesión</h2>

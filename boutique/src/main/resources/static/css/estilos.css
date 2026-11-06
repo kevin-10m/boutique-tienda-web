@@ -287,3 +287,25 @@ body {
 .resumen-confirmacion {
     max-width: 640px;
 }
+
+.linea-estados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+}
+
+.linea-estados li {
+    border-top: 4px solid #e2d8cf;
+    color: #6f655d;
+    flex: 1 1 150px;
+    font-size: 14px;
+    padding-top: 8px;
+}
+
+.linea-estados li.completado {
+    border-top-color: #b5615b;
+    color: #3f362f;
+    font-weight: 600;
+}

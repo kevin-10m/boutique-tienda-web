@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.boutique.domain.*;
 import com.boutique.repository.*;
 import com.boutique.service.CompraService;
+import com.boutique.service.PedidoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ class CompraServiceTests {
     private static final String CORREO = "prueba@boutique.test";
 
     @Autowired private CompraService compras;
+    @Autowired private PedidoService pedidoService;
     @Autowired private ClientaRepository clientas;
     @Autowired private CategoriaRepository categorias;
     @Autowired private ProductoRepository productos;
@@ -152,5 +154,18 @@ class CompraServiceTests {
 
         assertThat(pedido.getDescuento()).isEqualByComparingTo("0");
         assertThat(pedido.getCupon()).isNull();
+    }
+
+    @Test
+    void cancelarDevuelveInventarioYBloqueaCambiosNoPermitidos() {
+        var pedido = compras.confirmar(CORREO, tarjeta("4242424242424242"), null);
+
+        assertThatThrownBy(() -> pedidoService.cambiarEstado(pedido.getId(), EstadoPedido.ENTREGADO))
+                .hasMessageContaining("no está permitido");
+
+        pedidoService.cambiarEstado(pedido.getId(), EstadoPedido.CANCELADO);
+
+        assertThat(variantes.findById(variante.getId()).orElseThrow().getExistencias()).isEqualTo(5);
+        assertThat(productos.findById(variante.getProducto().getIdProducto()).orElseThrow().getExistencias()).isEqualTo(5);
     }
 }

@@ -20,7 +20,7 @@ public class RedireccionLogin extends SavedRequestAwareAuthenticationSuccessHand
         boolean esAdmin = autenticacion.getAuthorities().stream()
                 .anyMatch(rol -> "ROLE_ADMIN".equals(rol.getAuthority()));
         if (esAdmin) {
-            getRedirectStrategy().sendRedirect(solicitud, respuesta, "/admin/productos");
+            getRedirectStrategy().sendRedirect(solicitud, respuesta, "/admin/pedidos");
             return;
         }
         super.onAuthenticationSuccess(solicitud, respuesta, autenticacion);

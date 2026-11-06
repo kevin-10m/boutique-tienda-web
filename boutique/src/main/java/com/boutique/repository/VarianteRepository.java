@@ -17,4 +17,8 @@ public interface VarianteRepository extends JpaRepository<Variante, Long> {
            WHERE v.id = :id AND v.existencias >= :cantidad
            """)
     int descontar(@Param("id") Long id, @Param("cantidad") int cantidad);
+
+    @Modifying
+    @Query("UPDATE Variante v SET v.existencias = v.existencias + :cantidad WHERE v.id = :id")
+    void reponer(@Param("id") Long id, @Param("cantidad") int cantidad);
 }
