@@ -4,41 +4,53 @@
 <body>
 <header th:replace="~{general/fragmentos :: header}"></header>
 <main class="container py-5">
-    <h1>Mi carrito</h1>
-    <a th:href="@{/catalogo}" class="volver-catalogo">← Seguir comprando</a>
+    <h1 class="titulo-catalogo">Tu carrito</h1>
+    <a th:href="@{/catalogo}" class="volver-catalogo">← SEGUIR COMPRANDO</a>
     <p class="alert alert-success mt-3" th:if="${mensaje}" th:text="${mensaje}"></p>
     <p class="alert alert-danger mt-3" role="alert" th:if="${errorCarrito}" th:text="${errorCarrito}"></p>
     <p class="mt-4" th:if="${resumen.lineas.isEmpty()}">Tu carrito está vacío.</p>
-    <div th:unless="${resumen.lineas.isEmpty()}" class="table-responsive mt-4">
-        <table class="table align-middle">
-            <thead><tr><th>Producto</th><th>Talla y color</th><th>Precio</th><th>Cantidad</th><th>Importe</th><th></th></tr></thead>
-            <tbody>
-            <tr th:each="l : ${resumen.lineas}">
-                <td th:text="${l.variante.producto.nombre}"></td>
-                <td th:text="|${l.variante.talla} · ${l.variante.color}|"></td>
-                <td th:text="|₡${#numbers.formatDecimal(l.variante.producto.precio,1,'COMMA',2,'POINT')}|"></td>
-                <td>
-                    <form th:action="@{/carrito/{id}/cantidad(id=${l.id})}" method="post" class="d-flex gap-2">
-                        <input type="number" min="1" required name="cantidad" aria-label="Cantidad" class="form-control"
-                               th:value="${l.cantidad}" th:max="${l.variante.existencias}">
-                        <button class="btn btn-outline-dark btn-sm">Actualizar</button>
-                    </form>
-                </td>
-                <td th:text="|₡${#numbers.formatDecimal(l.importe,1,'COMMA',2,'POINT')}|"></td>
-                <td>
-                    <form th:action="@{/carrito/{id}/eliminar(id=${l.id})}" method="post">
-                        <button class="btn btn-outline-danger btn-sm">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div class="row g-4 mt-1" th:unless="${resumen.lineas.isEmpty()}">
+        <section class="col-lg-8">
+            <article class="producto-card p-3 mb-3" th:each="l : ${resumen.lineas}">
+                <div class="d-flex flex-wrap gap-3">
+                    <img th:src="${l.variante.producto.imagen}" th:alt="${l.variante.producto.nombre}" class="miniatura-carrito">
+                    <div class="flex-grow-1">
+                        <h2 class="h5 titulo-resumen mb-1" th:text="${l.variante.producto.nombre}"></h2>
+                        <p class="text-muted small" th:text="|Talla ${l.variante.talla} · ${l.variante.color}|"></p>
+                        <form th:action="@{/carrito/{id}/cantidad(id=${l.id})}" method="post" class="d-flex gap-2 selector-cantidad">
+                            <input type="number" min="1" required name="cantidad" aria-label="Cantidad" class="form-control form-control-sm"
+                                   th:value="${l.cantidad}" th:max="${l.variante.existencias}">
+                            <button class="btn btn-outline-dark btn-sm">Actualizar</button>
+                        </form>
+                    </div>
+                    <div class="text-end">
+                        <p class="fw-bold mb-2"><span th:replace="~{general/fragmentos :: colones(${l.importe})}"></span></p>
+                        <form th:action="@{/carrito/{id}/eliminar(id=${l.id})}" method="post">
+                            <button class="btn btn-link btn-sm text-muted p-0">× Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+
+            <div class="panel-claro p-3">
+                <form th:action="@{/carrito/cupon}" method="post" class="d-flex flex-wrap align-items-center gap-2">
+                    <label for="codigo" class="mb-0 small text-uppercase">Cupón de descuento</label>
+                    <input id="codigo" name="codigo" class="form-control form-control-sm flex-grow-1 campo-cupon" maxlength="20" required>
+                    <button class="btn btn-outline-dark btn-sm">Aplicar</button>
+                </form>
+                <form th:if="${resumen.cupon}" th:action="@{/carrito/cupon/quitar}" method="post" class="mt-2">
+                    <span class="small" th:text="|Cupón aplicado: ${resumen.cupon}|"></span>
+                    <button class="btn btn-link btn-sm p-0 ms-2">Quitar</button>
+                </form>
+            </div>
+        </section>
+
+        <aside class="col-lg-4">
+            <div th:replace="~{general/fragmentos :: resumenCompra(${resumen})}"></div>
+            <a th:href="@{/checkout}" class="btn btn-boutique w-100 mt-3">CONTINUAR AL PAGO →</a>
+        </aside>
     </div>
-    <dl class="row mt-4">
-        <dt class="col-7">Subtotal</dt><dd class="col-5" th:text="|₡${#numbers.formatDecimal(resumen.subtotal,1,'COMMA',2,'POINT')}|"></dd>
-        <dt class="col-7">Envío estimado</dt><dd class="col-5" th:text="|₡${#numbers.formatDecimal(resumen.envio,1,'COMMA',2,'POINT')}|"></dd>
-        <dt class="col-7">Total estimado</dt><dd class="col-5" th:text="|₡${#numbers.formatDecimal(resumen.total,1,'COMMA',2,'POINT')}|"></dd>
-    </dl>
 </main>
 <footer th:replace="~{general/fragmentos :: footer}"></footer>
 </body>

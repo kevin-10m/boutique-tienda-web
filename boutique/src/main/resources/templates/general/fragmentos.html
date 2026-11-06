@@ -112,6 +112,27 @@
 
         </header>
 
+        <span th:fragment="colones(monto)" th:text="|₡ ${#numbers.formatDecimal(monto,1,'WHITESPACE',0,'POINT')}|"></span>
+
+        <div th:fragment="resumenCompra(r)" class="panel-claro p-4">
+            <h2 class="h5 titulo-resumen mb-3">Resumen</h2>
+            <dl class="row mb-0">
+                <dt class="col-6 fw-normal">Subtotal</dt>
+                <dd class="col-6 text-end fw-semibold"><span th:replace="~{general/fragmentos :: colones(${r.subtotal})}"></span></dd>
+                <dt class="col-6 fw-normal" th:if="${r.cupon}">Descuento</dt>
+                <dd class="col-6 text-end fw-semibold texto-terracota" th:if="${r.cupon}">
+                    − <span th:replace="~{general/fragmentos :: colones(${r.descuento})}"></span>
+                </dd>
+                <dt class="col-6 fw-normal">Envío</dt>
+                <dd class="col-6 text-end fw-semibold"><span id="montoEnvio" th:insert="~{general/fragmentos :: colones(${r.envio})}"></span></dd>
+            </dl>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="h5 titulo-resumen mb-0">Total</span>
+                <span class="h5 fw-bold mb-0" id="montoTotal" th:insert="~{general/fragmentos :: colones(${r.total})}"></span>
+            </div>
+        </div>
+
         <span th:fragment="precio(p)">
             <span th:if="${p.enOferta}" class="precio-anterior"
                   th:text="|₡ ${#numbers.formatDecimal(p.precio,1,'WHITESPACE',0,'POINT')}|"></span>
@@ -128,6 +149,7 @@
                     <div class="collapse navbar-collapse" id="menuAdmin">
                         <ul class="navbar-nav mx-auto gap-md-3">
                             <li class="nav-item"><a class="nav-link text-white" th:href="@{/admin/productos}">PRODUCTOS</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" th:href="@{/admin/cupones}">CUPONES</a></li>
                         </ul>
                         <a class="nav-link text-white" th:href="@{/}">VER TIENDA</a>
                     </div>
