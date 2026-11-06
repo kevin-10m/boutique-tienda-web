@@ -11,24 +11,18 @@
         <main class="container py-5">
 
             <div class="mb-4">
-
                 <a th:href="@{/catalogo}"
                    class="volver-catalogo">
-
                     ← VOLVER AL CATÁLOGO
-
                 </a>
-
             </div>
 
             <div class="row g-5 align-items-start">
 
                 <div class="col-lg-6">
-
                     <img th:src="${producto.imagen}"
                          th:alt="${producto.nombre}"
                          class="img-fluid detalle-imagen"/>
-
                 </div>
 
                 <div class="col-lg-6">
@@ -44,9 +38,7 @@
                     </h1>
 
                     <h3 class="detalle-precio">
-
                         <span th:replace="~{general/fragmentos :: precio(${producto})}"></span>
-
                     </h3>
 
                     <p class="detalle-descripcion"
@@ -55,27 +47,27 @@
                     </p>
 
                     <div class="mt-4">
-
                         <p th:if="${producto.existencias > 0}"
                            class="text-success">
-
                             <i class="fa-solid fa-check"></i>
-
                             <span th:text="${producto.existencias + ' unidades disponibles'}">
                             </span>
-
                         </p>
-
                         <p th:if="${producto.existencias == 0}"
                            class="text-danger">
-
                             <strong>Producto agotado</strong>
-
                         </p>
-
                     </div>
 
                     <form th:if="${!variantes.isEmpty()}" th:action="@{/carrito/agregar}" method="post">
+                        
+                        <!-- HU-09: Botón de la Guía de Tallas añadido aquí -->
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-link p-0 text-decoration-underline text-dark fw-semibold" data-bs-toggle="modal" data-bs-target="#modalGuiaTallas">
+                                📏 Consultar guía de tallas
+                            </button>
+                        </div>
+
                         <label for="variante" class="form-label">Talla y color</label>
                         <select id="variante" name="varianteId" class="form-select" required>
                             <option value="">Elegí una combinación</option>
@@ -92,6 +84,53 @@
                     <p th:if="${variantes.isEmpty()}" class="text-muted">Sin tallas y colores disponibles.</p>
                 </div>
 
+            </div>
+
+            <!-- HU-09: Modal de la Guía de Tallas -->
+            <div class="modal fade" id="modalGuiaTallas" tabindex="-1" aria-labelledby="modalGuiaTallasLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalGuiaTallasLabel">Guía de Tallas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <table class="table table-bordered text-center align-middle">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Talla</th>
+                          <th>Busto (cm)</th>
+                          <th>Cintura (cm)</th>
+                          <th>Cadera (cm)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="fw-bold">S</td>
+                          <td>82 - 86</td>
+                          <td>64 - 68</td>
+                          <td>90 - 94</td>
+                        </tr>
+                        <tr>
+                          <td class="fw-bold">M</td>
+                          <td>87 - 91</td>
+                          <td>69 - 73</td>
+                          <td>95 - 99</td>
+                        </tr>
+                        <tr>
+                          <td class="fw-bold">L</td>
+                          <td>92 - 97</td>
+                          <td>74 - 79</td>
+                          <td>100 - 104</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <section class="mt-5 pt-5"
@@ -123,9 +162,7 @@
                                 </h5>
 
                                 <p class="precio-producto">
-
                                     <span th:replace="~{general/fragmentos :: precio(${recomendado})}"></span>
-
                                 </p>
 
                                 <a th:href="@{/catalogo/producto/{id}(id=${recomendado.idProducto})}"

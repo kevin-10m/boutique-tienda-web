@@ -25,3 +25,43 @@ Solicitar la revisión de otro integrante.
 Una vez revisado y aprobado, realizar el merge hacia main.
 Ejemplo de rama: feature/hu12-carrito
 Ejemplos de commits: feat: agrega carrito de compras, fix: corrige total con cupón, docs: actualiza README
+
+## Avance 2
+
+### Requisitos y ejecución
+
+Se necesita Java 21, Maven y MySQL.
+
+1. Ejecutá `database/crear_base.sql` en MySQL una sola vez.
+2. Desde la carpeta `boutique`, ejecutá `mvn spring-boot:run`.
+3. Abrí http://localhost:8080. Hibernate crea las tablas y `data.sql` carga los datos de ejemplo.
+
+Las pruebas automáticas se ejecutan con `mvn test` y usan una base temporal en memoria.
+
+### Usuarios de prueba
+
+| Rol | Correo | Contraseña |
+| --- | --- | --- |
+| Administrador | sofia.admin@boutique.test | Admin2026! |
+| Clienta | ana.rodriguez@boutique.test | Clienta2026! |
+
+### Datos para probar la compra
+
+- Cupón vigente: `VERANO10`. Cupón vencido: `VENCIDO25`.
+- Tarjeta aprobada: `4242 4242 4242 4242`. Tarjeta rechazada: `4000 0000 0000 0002`. Usá una fecha futura y cualquier CVV de 3 dígitos.
+- SINPE Móvil: cualquier comprobante de al menos 6 dígitos. El pedido queda pendiente hasta que el administrador lo verifique.
+
+La pasarela es simulada y los datos de tarjeta no se guardan. Para enviar correos reales, definí `BOUTIQUE_MAIL_HOST`, `BOUTIQUE_MAIL_USER` y `BOUTIQUE_MAIL_PASSWORD`. Sin esas variables, la confirmación aparece en la consola.
+
+### Estado del backlog
+
+| Historias | Estado |
+| --- | --- |
+| HU-01, 02, 04, 05, 07, 08, 11, 12, 13 | Implementadas |
+| HU-10, 14, 15, 16, 17, 18, 19, 20, 26, 27, 28 | Implementadas |
+| HU-03, 06, 09 | Pendientes de integrar al repositorio |
+| HU-21, 22, 23, 24, 25, 29, 30 | Planificadas para la iteración 3 |
+
+### Base de datos
+
+Las ocho tablas son `categoria`, `producto`, `variante`, `clienta`, `linea_carrito`, `cupon`, `pedido` y `detalle_pedido`. La tabla transaccional es `pedido`, junto con su detalle.
