@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: header}"></header>
+<main class="container py-5 text-center">
+    <div class="circulo-confirmacion mx-auto mb-4"><i class="fa-solid fa-check"></i></div>
+    <h1 class="titulo-catalogo">¡Pedido confirmado!</h1>
+    <p class="text-muted" th:text="|Gracias, ${pedido.nombre}. Te enviamos un correo con los detalles.|"></p>
+    <p class="small fw-bold texto-terracota" th:text="|PEDIDO N.º ${pedido.numero}|"></p>
+    <p class="small" th:text="|Estado: ${pedido.estado.etiqueta}|"></p>
+    <section class="panel-claro p-4 mx-auto text-start resumen-confirmacion">
+        <h2 class="h5 titulo-resumen">Resumen</h2>
+        <div class="d-flex justify-content-between mb-2" th:each="d : ${pedido.detalles}">
+            <div>
+                <span class="d-block" th:text="${d.nombreProducto}"></span>
+                <small class="text-muted" th:text="|${d.cantidad} · Talla ${d.talla} · ${d.color}|"></small>
+            </div>
+            <span class="fw-semibold" th:insert="~{general/fragmentos :: colones(${d.importe})}"></span>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+            <span class="h5 titulo-resumen mb-0">Total</span>
+            <span class="h5 fw-bold mb-0" th:insert="~{general/fragmentos :: colones(${pedido.total})}"></span>
+        </div>
+    </section>
+    <a th:href="@{/catalogo}" class="btn btn-dark rounded-0 mt-4">SEGUIR COMPRANDO →</a>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

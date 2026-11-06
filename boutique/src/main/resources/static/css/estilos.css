@@ -271,3 +271,19 @@ body {
 .texto-terracota {
     color: #b5615b;
 }
+
+.circulo-confirmacion {
+    align-items: center;
+    background-color: #b5615b;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    font-size: 36px;
+    height: 88px;
+    justify-content: center;
+    width: 88px;
+}
+
+.resumen-confirmacion {
+    max-width: 640px;
+}

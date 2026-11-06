@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: header}"></header>
+<main class="container py-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <h1 class="titulo-catalogo mb-0">Envío y pago</h1>
+        <span class="small fw-bold texto-terracota">PASO 2 DE 3 · ENVÍO Y PAGO</span>
+    </div>
+    <p class="alert alert-danger" role="alert" th:if="${errorCompra}" th:text="${errorCompra}"></p>
+
+    <form id="formCompra" th:action="@{/checkout}" th:object="${compra}" method="post" autocomplete="on"
+          th:attr="data-subtotal=${resumen.subtotal.subtract(resumen.descuento)},data-envio=${envioEstandar}">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <section class="panel-claro p-4 mb-4">
+                    <h2 class="h4 titulo-resumen">Método de entrega</h2>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="entregaDomicilio" name="entrega" value="DOMICILIO" th:checked="*{entrega.name() == 'DOMICILIO'}">
+                        <label class="form-check-label" for="entregaDomicilio">Envío a domicilio</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="entregaRetiro" name="entrega" value="RETIRO" th:checked="*{entrega.name() == 'RETIRO'}">
+                        <label class="form-check-label" for="entregaRetiro">Retiro en tienda (sin costo)</label>
+                    </div>
+                    <p id="horarioRetiro" class="small text-muted mt-2 mb-0" th:text="|Horario de retiro: ${horarioRetiro}|"></p>
+                </section>
+
+                <section class="panel-claro p-4">
+                    <h2 class="h4 titulo-resumen">Datos de contacto y envío</h2>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="nombre" class="form-label">Nombre completo</label>
+                            <input th:field="*{nombre}" class="form-control" th:errorclass="is-invalid" autocomplete="name" required>
+                            <div class="invalid-feedback" th:errors="*{nombre}"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input th:field="*{telefono}" type="tel" class="form-control" th:errorclass="is-invalid" autocomplete="tel" required>
+                            <div class="invalid-feedback" th:errors="*{telefono}"></div>
+                        </div>
+                    </div>
+                    <div id="datosDireccion" class="row g-3 mt-0">
+                        <div class="col-md-4">
+                            <label for="provincia" class="form-label">Provincia</label>
+                            <select th:field="*{provincia}" class="form-select" th:errorclass="is-invalid">
+                                <option value="">Elegí una</option>
+                                <option th:each="p : ${provincias}" th:value="${p}" th:text="${p}"></option>
+                            </select>
+                            <div class="invalid-feedback" th:errors="*{provincia}"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="canton" class="form-label">Cantón</label>
+                            <input th:field="*{canton}" class="form-control" th:errorclass="is-invalid">
+                            <div class="invalid-feedback" th:errors="*{canton}"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="distrito" class="form-label">Distrito</label>
+                            <input th:field="*{distrito}" class="form-control" th:errorclass="is-invalid">
+                            <div class="invalid-feedback" th:errors="*{distrito}"></div>
+                        </div>
+                        <div class="col-12">
+                            <label for="direccion" class="form-label">Dirección exacta</label>
+                            <input th:field="*{direccion}" class="form-control" th:errorclass="is-invalid" maxlength="300" autocomplete="street-address">
+                            <div class="invalid-feedback" th:errors="*{direccion}"></div>
+                        </div>
+                        <div class="col-12 form-check ms-2">
+                            <input th:field="*{guardarDireccion}" type="checkbox" class="form-check-input">
+                            <label class="form-check-label" th:for="${#ids.prev('guardarDireccion')}">Guardar esta dirección para futuras compras</label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-5">
+                <section class="panel-claro p-4 mb-4">
+                    <h2 class="h4 titulo-resumen">Método de pago</h2>
+                    <div class="producto-card p-3 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="pagoTarjeta" name="metodoPago" value="TARJETA" th:checked="*{metodoPago.name() == 'TARJETA'}">
+                            <label class="form-check-label fw-bold" for="pagoTarjeta">Tarjeta de crédito o débito</label>
+                        </div>
+                        <div id="datosTarjeta" class="mt-3">
+                            <p class="small text-muted">Pasarela de prueba: no ingreses una tarjeta real. Usá 4242 4242 4242 4242.</p>
+                            <label for="numeroTarjeta" class="form-label">Número de tarjeta</label>
+                            <input id="numeroTarjeta" name="numeroTarjeta" class="form-control mb-2" inputmode="numeric" autocomplete="off">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label for="vencimientoTarjeta" class="form-label">Vence (MM/AA)</label>
+                                    <input id="vencimientoTarjeta" name="vencimientoTarjeta" class="form-control" placeholder="12/28" maxlength="5" autocomplete="off">
+                                </div>
+                                <div class="col-6">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input id="cvv" name="cvv" type="password" class="form-control" maxlength="4" inputmode="numeric" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="producto-card p-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="pagoSinpe" name="metodoPago" value="SINPE" th:checked="*{metodoPago.name() == 'SINPE'}">
+                            <label class="form-check-label fw-bold" for="pagoSinpe">SINPE Móvil</label>
+                        </div>
+                        <div id="datosSinpe" class="mt-3">
+                            <p class="small text-muted" th:text="|Transferí al ${numeroSinpe} y escribí tu número de comprobante.|"></p>
+                            <label for="comprobante" class="form-label">Número de comprobante</label>
+                            <input th:field="*{comprobante}" class="form-control" inputmode="numeric" maxlength="30">
+                        </div>
+                    </div>
+                </section>
+                <div th:replace="~{general/fragmentos :: resumenCompra(${resumen})}"></div>
+            </div>
+        </div>
+        <button class="btn btn-boutique w-100 mt-4">FINALIZAR COMPRA</button>
+    </form>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+<script defer th:src="@{/js/checkout.js}"></script>
+</body>
+</html>

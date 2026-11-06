@@ -17,7 +17,7 @@ public class SeguridadConfig {
     SecurityFilterChain seguridad(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/carrito", "/carrito/**").authenticated()
+                .requestMatchers("/carrito", "/carrito/**", "/checkout", "/pedidos/**").authenticated()
                 .anyRequest().permitAll())
             .formLogin(login -> login.loginPage("/cuenta").loginProcessingUrl("/cuenta/ingresar")
                 .usernameParameter("correo").passwordParameter("clave")
