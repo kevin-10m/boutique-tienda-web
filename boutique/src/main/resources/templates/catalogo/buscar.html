@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+
+            <div class="mb-5">
+
+                <p class="temporada mb-2">
+                    BOUTIQUE
+                </p>
+
+                <h1 class="titulo-catalogo">
+                    Buscar productos
+                </h1>
+
+            </div>
+
+            <form th:action="@{/catalogo/buscar}"
+                  method="get"
+                  class="mb-5">
+
+                <div class="input-group input-group-lg">
+
+                    <input type="text"
+                           name="texto"
+                           th:value="${texto}"
+                           class="form-control"
+                           placeholder="Escribe el nombre de una prenda..."
+                           required/>
+
+                    <button type="submit"
+                            class="btn btn-dark px-4">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Buscar
+
+                    </button>
+
+                </div>
+
+            </form>
+
+            <div th:if="${texto != null and !texto.isBlank()}">
+
+                <p th:if="${!productos.isEmpty()}">
+
+                    Resultados para
+                    "<strong th:text="${texto}"></strong>"
+
+                </p>
+
+                <div th:if="${productos.isEmpty()}"
+                     class="text-center py-5">
+
+                    <i class="fa-solid fa-magnifying-glass fa-3x mb-4"></i>
+
+                    <h3>
+                        Sin resultados
+                    </h3>
+
+                    <p>
+                        No encontramos productos para esa búsqueda.
+                    </p>
+
+                    <a th:href="@{/catalogo}"
+                       class="btn btn-dark mt-3">
+
+                        VER CATÁLOGO
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="row g-4"
+                 th:if="${!productos.isEmpty()}">
+
+                <div class="col-sm-6 col-lg-4"
+                     th:each="producto : ${productos}">
+
+                    <div class="card producto-card h-100">
+
+                        <div class="position-relative">
+
+                            <a th:href="@{/catalogo/producto/{id}(id=${producto.idProducto})}">
+
+                                <img th:src="${producto.imagen}"
+                                     th:alt="${producto.nombre}"
+                                     class="card-img-top producto-imagen"/>
+
+                            </a>
+
+                            <span th:if="${producto.existencias == 0}"
+                                  class="badge bg-dark agotado">
+
+                                AGOTADO
+
+                            </span>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <small class="producto-categoria"
+                                   th:text="${producto.categoria.nombre}">
+                                Categoría
+                            </small>
+
+                            <h5 class="card-title mt-2"
+                                th:text="${producto.nombre}">
+                                Producto
+                            </h5>
+
+                            <p class="card-text"
+                               th:text="${producto.descripcion}">
+                                Descripción
+                            </p>
+
+                            <h5 class="precio-producto">
+
+                                ₡
+                                <span th:text="${#numbers.formatDecimal(producto.precio,1,0)}">
+                                    0
+                                </span>
+
+                            </h5>
+
+                            <div class="mt-3">
+
+                                <a th:href="@{/catalogo/producto/{id}(id=${producto.idProducto})}"
+                                   class="btn btn-outline-dark btn-sm">
+
+                                    VER DETALLE →
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

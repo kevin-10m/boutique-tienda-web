@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main>
+
+            <section class="hero-boutique">
+                <div class="container">
+                    <div class="row align-items-center min-vh-75">
+
+                        <div class="col-lg-7">
+
+                            <p class="temporada">
+                                TEMPORADA 2026
+                            </p>
+
+                            <h1>
+                                Nueva colección
+                            </h1>
+
+                            <p class="hero-texto">
+                                Piezas atemporales en tonos cálidos
+                            </p>
+
+                            <a href="#categorias"
+                               class="btn btn-boutique">
+                                VER CATÁLOGO →
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="categorias"
+                     class="container py-5">
+
+                <div class="text-center mb-5">
+                    <h2 class="titulo-seccion">
+                        Explora nuestras categorías
+                    </h2>
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+                        <div class="categoria-card categoria-vestidos">
+                            <div>
+                                <h3>Vestidos</h3>
+                                <a href="#">
+                                    VER →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="categoria-card categoria-blusas">
+                            <div>
+                                <h3>Blusas</h3>
+                                <a href="#">
+                                    VER →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="categoria-card categoria-accesorios">
+                            <div>
+                                <h3>Accesorios</h3>
+                                <a href="#">
+                                    VER →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

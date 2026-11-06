@@ -1,0 +1,199 @@
+body {
+    background-color: #faf8f5;
+    color: #3f362f;
+    font-family: Arial, sans-serif;
+}
+
+.nombre-boutique {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: #3f362f;
+}
+
+.nav-link {
+    color: #3f362f !important;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.hero-boutique {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(239, 228, 218, 0.95),
+            rgba(245, 238, 231, 0.65)
+        );
+}
+
+.min-vh-75 {
+    min-height: 520px;
+}
+
+.temporada {
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.hero-boutique h1 {
+    font-family: Georgia, serif;
+    font-size: 64px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.hero-texto {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-boutique {
+    background-color: #4f4138;
+    color: white;
+    border-radius: 0;
+    padding: 13px 25px;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.btn-boutique:hover {
+    background-color: #372e28;
+    color: white;
+}
+
+.titulo-seccion {
+    font-family: Georgia, serif;
+    font-size: 38px;
+}
+
+.categoria-card {
+    min-height: 300px;
+    padding: 30px;
+    display: flex;
+    align-items: end;
+    background-color: #e8ddd3;
+    transition: 0.3s;
+}
+
+.categoria-card:hover {
+    transform: translateY(-5px);
+}
+
+.categoria-card h3 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+}
+
+.categoria-card a {
+    color: #3f362f;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.categoria-vestidos {
+    background-color: #e6d4c6;
+}
+
+.categoria-blusas {
+    background-color: #eee5dc;
+}
+
+.categoria-accesorios {
+    background-color: #ded0c3;
+}
+
+.titulo-catalogo {
+    font-family: Georgia, serif;
+    font-size: 48px;
+}
+
+.categoria-badge {
+    background-color: #e6d4c6;
+    color: #3f362f;
+    padding: 10px 15px;
+    font-weight: normal;
+}
+
+.producto-card {
+    border-radius: 0;
+    border: 1px solid #e2d8cf;
+    background-color: white;
+}
+
+.producto-imagen {
+    height: 390px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.producto-categoria {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #a06f61;
+}
+
+.precio-producto {
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.agotado {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    border-radius: 0;
+    letter-spacing: 2px;
+}
+
+.detalle-imagen {
+    width: 100%;
+    height: 650px;
+    object-fit: cover;
+}
+
+.detalle-titulo {
+    font-family: Georgia, serif;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.detalle-precio {
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.detalle-descripcion {
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.volver-catalogo {
+    color: #3f362f;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.volver-catalogo:hover {
+    color: #a06f61;
+}
+
+.recomendado-imagen {
+    height: 330px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.footer-boutique {
+    background-color: #3f362f;
+    color: white;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
