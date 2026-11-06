@@ -1,6 +1,7 @@
 package com.boutique.controller;
 
 import com.boutique.service.CarritoService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,11 @@ public class NavegacionControllerAdvice {
     @ModelAttribute("unidadesCarrito")
     public long unidadesCarrito(Principal clienta) {
         return clienta == null ? 0 : carrito.contarUnidades(clienta.getName());
+    }
+
+    @ModelAttribute("esAdmin")
+    public boolean esAdmin(HttpServletRequest solicitud) {
+        return solicitud.isUserInRole("ADMIN");
     }
 
     @ModelAttribute("correoActual")

@@ -76,10 +76,7 @@
 
                             <h5 class="precio-producto">
 
-                                ₡
-                                <span th:text="${#numbers.formatDecimal(producto.precio,1,0)}">
-                                    0
-                                </span>
+                                <span th:replace="~{general/fragmentos :: precio(${producto})}"></span>
 
                             </h5>
 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: adminHeader}"></header>
+<main class="container py-5">
+    <a th:href="@{/admin/productos}" class="volver-catalogo">← VOLVER A PRODUCTOS</a>
+    <h1 class="titulo-catalogo mt-3 mb-4" th:text="${producto.idProducto == null ? 'Nuevo producto' : 'Editar producto'}"></h1>
+    <p class="alert alert-danger" role="alert" th:if="${errorProducto}" th:text="${errorProducto}"></p>
+    <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post" class="panel-claro p-4">
+        <input type="hidden" th:field="*{idProducto}">
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input th:field="*{nombre}" class="form-control" th:errorclass="is-invalid" maxlength="100" required>
+                <div class="invalid-feedback" th:errors="*{nombre}"></div>
+            </div>
+            <div class="col-md-4">
+                <label for="idCategoria" class="form-label">Categoría</label>
+                <select th:field="*{idCategoria}" class="form-select" th:errorclass="is-invalid" required>
+                    <option value="">Elegí una</option>
+                    <option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="${c.nombre}"></option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea th:field="*{descripcion}" class="form-control" th:errorclass="is-invalid" rows="3" maxlength="500" required></textarea>
+                <div class="invalid-feedback" th:errors="*{descripcion}"></div>
+            </div>
+            <div class="col-md-3">
+                <label for="precio" class="form-label">Precio (₡)</label>
+                <input th:field="*{precio}" type="number" min="1" step="1" class="form-control" th:errorclass="is-invalid" required>
+                <div class="invalid-feedback" th:errors="*{precio}"></div>
+            </div>
+            <div class="col-md-3">
+                <label for="descuento" class="form-label">Descuento (%)</label>
+                <input th:field="*{descuento}" type="number" min="0" max="90" class="form-control" th:errorclass="is-invalid" required>
+                <div class="invalid-feedback" th:errors="*{descuento}"></div>
+            </div>
+            <div class="col-md-6">
+                <label for="imagen" class="form-label">Enlace de la imagen</label>
+                <input th:field="*{imagen}" type="url" class="form-control" th:errorclass="is-invalid" maxlength="1024" required>
+                <div class="invalid-feedback" th:errors="*{imagen}"></div>
+            </div>
+        </div>
+
+        <h2 class="h5 mt-4">Tallas, colores y existencias</h2>
+        <div id="variantes">
+            <div class="row g-2 mb-2 fila-variante" th:each="v, i : *{variantes}">
+                <input type="hidden" th:field="*{variantes[__${i.index}__].id}">
+                <div class="col-4"><input th:field="*{variantes[__${i.index}__].talla}" class="form-control" placeholder="Talla" aria-label="Talla" maxlength="30"></div>
+                <div class="col-4"><input th:field="*{variantes[__${i.index}__].color}" class="form-control" placeholder="Color" aria-label="Color" maxlength="30"></div>
+                <div class="col-4"><input th:field="*{variantes[__${i.index}__].existencias}" type="number" min="0" class="form-control" placeholder="Existencias" aria-label="Existencias"></div>
+            </div>
+        </div>
+        <button type="button" id="agregarVariante" class="btn btn-outline-dark btn-sm rounded-0">+ Agregar combinación</button>
+
+        <div class="mt-4">
+            <button class="btn btn-boutique">GUARDAR</button>
+        </div>
+    </form>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+<script defer th:src="@{/js/admin-producto.js}"></script>
+</body>
+</html>

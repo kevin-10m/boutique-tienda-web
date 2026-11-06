@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: header}"></header>
+<main class="container py-5">
+    <p class="temporada mb-2">PROMOCIONES VIGENTES</p>
+    <h1 class="titulo-catalogo mb-4">Ofertas</h1>
+    <p th:if="${productos.isEmpty()}">Por ahora no hay productos en oferta.</p>
+    <div class="row g-4">
+        <div class="col-sm-6 col-lg-4" th:each="producto : ${productos}">
+            <div class="card producto-card h-100">
+                <div class="position-relative">
+                    <a th:href="@{/catalogo/producto/{id}(id=${producto.idProducto})}">
+                        <img th:src="${producto.imagen}" th:alt="${producto.nombre}" class="card-img-top producto-imagen"/>
+                    </a>
+                    <span class="badge agotado etiqueta-oferta" th:text="|-${producto.descuento}%|"></span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${producto.nombre}"></h5>
+                    <h5 class="precio-producto"><span th:replace="~{general/fragmentos :: precio(${producto})}"></span></h5>
+                    <a th:href="@{/catalogo/producto/{id}(id=${producto.idProducto})}" class="btn btn-outline-dark btn-sm mt-2">VER DETALLE →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

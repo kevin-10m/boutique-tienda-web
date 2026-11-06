@@ -1,6 +1,8 @@
 package com.boutique.domain;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,4 +37,20 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
     private Categoria categoria;
+
+    /** Porcentaje de descuento activo; 0 significa que no está en oferta. */
+    private Integer descuento = 0;
+
+    public boolean isEnOferta() {
+        return descuento != null && descuento > 0;
+    }
+
+    public BigDecimal getPrecioFinal() {
+        var original = BigDecimal.valueOf(precio);
+        if (!isEnOferta()) {
+            return original;
+        }
+        return original.multiply(BigDecimal.valueOf(100 - descuento))
+                .divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
+    }
 }

@@ -9,6 +9,10 @@
 
         <title>Boutique</title>
 
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap"/>
+
         <link rel="stylesheet"
               th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 
@@ -62,6 +66,13 @@
 
                             <li class="nav-item">
                                 <a class="nav-link"
+                                   th:href="@{/catalogo/ofertas}">
+                                    OFERTAS
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
                                    th:href="@{/catalogo/buscar}">
                                     BUSCAR
                                 </a>
@@ -70,6 +81,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/cuenta}">
                                     CUENTA
+                                </a>
+                            </li>
+
+                            <li class="nav-item" th:if="${esAdmin}">
+                                <a class="nav-link" th:href="@{/admin/productos}">
+                                    ADMIN
                                 </a>
                             </li>
 
@@ -93,6 +110,29 @@
 
             </nav>
 
+        </header>
+
+        <span th:fragment="precio(p)">
+            <span th:if="${p.enOferta}" class="precio-anterior"
+                  th:text="|₡ ${#numbers.formatDecimal(p.precio,1,'WHITESPACE',0,'POINT')}|"></span>
+            <span th:text="|₡ ${#numbers.formatDecimal(p.precioFinal,1,'WHITESPACE',0,'POINT')}|"></span>
+        </span>
+
+        <header th:fragment="adminHeader">
+            <nav class="navbar navbar-expand-md navbar-dark admin-nav">
+                <div class="container py-2">
+                    <a class="navbar-brand nombre-boutique text-white fs-6" th:href="@{/admin/productos}">BOUTIQUE · ADMIN</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuAdmin">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="menuAdmin">
+                        <ul class="navbar-nav mx-auto gap-md-3">
+                            <li class="nav-item"><a class="nav-link text-white" th:href="@{/admin/productos}">PRODUCTOS</a></li>
+                        </ul>
+                        <a class="nav-link text-white" th:href="@{/}">VER TIENDA</a>
+                    </div>
+                </div>
+            </nav>
         </header>
 
         <footer th:fragment="footer"
