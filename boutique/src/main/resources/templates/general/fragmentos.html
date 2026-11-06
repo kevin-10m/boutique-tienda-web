@@ -139,7 +139,7 @@
             <span th:text="|₡ ${#numbers.formatDecimal(p.precioFinal,1,'WHITESPACE',0,'POINT')}|"></span>
         </span>
 
-        <header th:fragment="adminHeader">
+        <div th:fragment="adminHeader">
             <nav class="navbar navbar-expand-md navbar-dark admin-nav">
                 <div class="container py-2">
                     <a class="navbar-brand nombre-boutique text-white fs-6" th:href="@{/admin/productos}">BOUTIQUE · ADMIN</a>
@@ -156,7 +156,7 @@
                     </div>
                 </div>
             </nav>
-        </header>
+        </div>
 
         <footer th:fragment="footer"
                 class="footer-boutique mt-5">
