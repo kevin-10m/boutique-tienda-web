@@ -48,6 +48,12 @@
                 <input id="correo" class="form-control mb-3" name="correo" type="email" autocomplete="username" required>
                 <label for="clave" class="form-label">Contraseña</label>
                 <input id="clave" class="form-control mb-3" name="clave" type="password" autocomplete="current-password" required>
+                
+                <!-- HU-03: Enlace de Recuperar Contraseña añadido aquí -->
+                <div class="mb-3 text-end">
+                    <a href="#" th:href="@{/auth/recuperar}" class="text-decoration-none text-muted small">¿Olvidaste tu contraseña?</a>
+                </div>
+
                 <button class="btn btn-dark">Ingresar</button>
             </form>
         </section>
