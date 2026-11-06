@@ -28,3 +28,24 @@ Abrir un Pull Request hacia develop y pedir la revisión de otro integrante.
 Al cerrar cada iteración, se une develop con main.
 
 
+
+### Avance 2 · Cuenta y carrito
+
+Esta rama añade el registro e inicio de sesión (HU-02), la selección de talla,
+color y cantidad desde la ficha de producto (HU-11), el carrito persistente por
+clienta (HU-12) y la modificación de cantidades y eliminación de artículos (HU-13).
+
+Para ejecutar el proyecto se requiere Java 21, Maven y MySQL. Creá la base
+`boutique_db` y un usuario con permisos sobre esa base. Definí
+`SPRING_DATASOURCE_USERNAME` y `SPRING_DATASOURCE_PASSWORD` con tus credenciales.
+Si cambiás el servidor o el nombre de la base, definí también `SPRING_DATASOURCE_URL`.
+Desde la carpeta `boutique` que contiene el `pom.xml`, ejecutá
+`mvn spring-boot:run` y abrí http://localhost:8080. Hibernate prepara las tablas
+y el script de inicio carga los productos y las variantes de ejemplo.
+
+Para probar el flujo, registrá una cuenta desde **Cuenta**, iniciá sesión y
+abrí **Vestido Lino Alba** en el catálogo. Elegí M / Natural y agregá dos
+unidades. En el carrito podés cambiar la cantidad, cerrar sesión y volver a
+entrar para verificar la persistencia, y finalmente eliminar la prenda.
+La combinación M / Negro está agotada. El envío estimado es configurable con
+`BOUTIQUE_ENVIO_ESTANDAR` (₡2 500 por defecto y ₡0 con el carrito vacío).
