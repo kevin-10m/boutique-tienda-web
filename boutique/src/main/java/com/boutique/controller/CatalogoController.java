@@ -1,6 +1,7 @@
 package com.boutique.controller;
 
 import com.boutique.service.CategoriaService;
+import com.boutique.service.CarritoService;
 import com.boutique.service.ProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ public class CatalogoController {
 
     private final ProductoService productoService;
     private final CategoriaService categoriaService;
+    private final CarritoService carritoService;
 
     @GetMapping
     public String listado(Model model) {
@@ -71,6 +73,7 @@ public class CatalogoController {
                         .toList();
 
         model.addAttribute("producto", producto);
+        model.addAttribute("variantes", carritoService.opciones(idProducto));
         model.addAttribute("recomendados", recomendados);
 
         return "catalogo/detalle";

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+<header th:replace="~{general/fragmentos :: header}"></header>
+<main class="container py-5">
+    <h1>Mi carrito</h1>
+    <a th:href="@{/catalogo}" class="volver-catalogo">← Seguir comprando</a>
+    <p class="alert alert-success mt-3" th:if="${mensaje}" th:text="${mensaje}"></p>
+    <p class="alert alert-danger mt-3" role="alert" th:if="${errorCarrito}" th:text="${errorCarrito}"></p>
+    <p class="mt-4" th:if="${resumen.lineas.isEmpty()}">Tu carrito está vacío.</p>
+    <div th:unless="${resumen.lineas.isEmpty()}" class="table-responsive mt-4">
+        <table class="table align-middle">
+            <thead><tr><th>Producto</th><th>Talla y color</th><th>Precio</th><th>Cantidad</th><th>Importe</th><th></th></tr></thead>
+            <tbody>
+            <tr th:each="l : ${resumen.lineas}">
+                <td th:text="${l.variante.producto.nombre}"></td>
+                <td th:text="|${l.variante.talla} · ${l.variante.color}|"></td>
+                <td th:text="|₡${#numbers.formatDecimal(l.variante.producto.precio,1,'COMMA',2,'POINT')}|"></td>
+                <td>
+                    <form th:action="@{/carrito/{id}/cantidad(id=${l.id})}" method="post" class="d-flex gap-2">
+                        <input type="number" min="1" required name="cantidad" aria-label="Cantidad" class="form-control"
+                               th:value="${l.cantidad}" th:max="${l.variante.existencias}">
+                        <button class="btn btn-outline-dark btn-sm">Actualizar</button>
+                    </form>
+                </td>
+                <td th:text="|₡${#numbers.formatDecimal(l.importe,1,'COMMA',2,'POINT')}|"></td>
+                <td>
+                    <form th:action="@{/carrito/{id}/eliminar(id=${l.id})}" method="post">
+                        <button class="btn btn-outline-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <dl class="row mt-4">
+        <dt class="col-7">Subtotal</dt><dd class="col-5" th:text="|₡${#numbers.formatDecimal(resumen.subtotal,1,'COMMA',2,'POINT')}|"></dd>
+        <dt class="col-7">Envío estimado</dt><dd class="col-5" th:text="|₡${#numbers.formatDecimal(resumen.envio,1,'COMMA',2,'POINT')}|"></dd>
+        <dt class="col-7">Total estimado</dt><dd class="col-5" th:text="|₡${#numbers.formatDecimal(resumen.total,1,'COMMA',2,'POINT')}|"></dd>
+    </dl>
+</main>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+</body>
+</html>

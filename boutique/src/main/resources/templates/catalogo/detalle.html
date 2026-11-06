@@ -78,6 +78,21 @@
 
                     </div>
 
+                    <form th:if="${!variantes.isEmpty()}" th:action="@{/carrito/agregar}" method="post">
+                        <label for="variante" class="form-label">Talla y color</label>
+                        <select id="variante" name="varianteId" class="form-select" required>
+                            <option value="">Elegí una combinación</option>
+                            <option th:each="v : ${variantes}" th:value="${v.id}"
+                                    th:with="stock=${v.existencias lt producto.existencias ? v.existencias : producto.existencias}"
+                                    th:disabled="${stock == 0}" th:attr="data-stock=${stock}"
+                                    th:text="|${v.talla} · ${v.color} (${stock} disponibles)|"></option>
+                        </select>
+                        <label for="cantidad" class="form-label mt-3">Cantidad</label>
+                        <input id="cantidad" type="number" class="form-control" name="cantidad" value="1" min="1" required>
+                        <button th:if="${!correoActual.isEmpty()}" id="agregar" class="btn btn-dark mt-3" disabled>Añadir al carrito</button>
+                        <a th:if="${correoActual.isEmpty()}" th:href="@{/cuenta}" class="btn btn-outline-dark mt-3">Iniciar sesión para comprar</a>
+                    </form>
+                    <p th:if="${variantes.isEmpty()}" class="text-muted">Sin tallas y colores disponibles.</p>
                 </div>
 
             </div>
@@ -140,5 +155,6 @@
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
 
+        <script defer th:src="@{/js/detalle.js}"></script>
     </body>
 </html>
